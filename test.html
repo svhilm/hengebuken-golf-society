@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HENGEBUKEN PLAN - Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f9f0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; background: #22c55e; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .status { padding: 10px; background: #f0f9ff; border-left: 4px solid #3b82f6; margin: 10px 0; }
+        .success { background: #f0fdf4; border-left-color: #22c55e; }
+        .error { background: #fef2f2; border-left-color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏌️ HENGEBUKEN PLAN</h1>
+            <p>Golf Selskap Management System</p>
+        </div>
+        
+        <div class="status">
+            <h3>Server Status</h3>
+            <p>Tid: <span id="timestamp"></span></p>
+            <p>Status: <span id="server-status">Tester...</span></p>
+        </div>
+        
+        <div class="status">
+            <h3>Nettleser Info</h3>
+            <p>User Agent: <span id="user-agent"></span></p>
+            <p>Cookies aktivert: <span id="cookies-enabled"></span></p>
+            <p>JavaScript aktivert: ✅ Ja</p>
+        </div>
+        
+        <div id="instructions" class="status">
+            <h3>Instruksjoner</h3>
+            <p>Hvis du ser denne siden, men ikke hovedappen:</p>
+            <ol>
+                <li>Prøv å åpne siden i et privat/inkognito vindu</li>
+                <li>Sjekk at cookies er aktivert i nettleseren</li>
+                <li>Prøv en annen nettleser (Chrome, Firefox, Safari)</li>
+                <li>Deaktiver eventuelle ad-blockere midlertidig</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Set timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('no-NO');
+        
+        // Set user agent
+        document.getElementById('user-agent').textContent = navigator.userAgent;
+        
+        // Test cookies
+        document.cookie = "test=1";
+        const cookiesEnabled = document.cookie.indexOf("test=1") !== -1;
+        document.getElementById('cookies-enabled').textContent = cookiesEnabled ? "✅ Ja" : "❌ Nei";
+        
+        // Test server status
+        fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('server-status').textContent = '✅ ' + data.message;
+            })
+            .catch(error => {
+                document.getElementById('server-status').textContent = '❌ Serverfeil: ' + error.message;
+            });
+    </script>
+</body>
+</html>
