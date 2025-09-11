@@ -2,62 +2,17 @@
 <html lang="no">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACMCAYAAACwCXGNAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAACQAAAAAQAAAJAAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAIigAwAEAAAAAQAAAIwAAAAA8ldGNwAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAM7lJREFUeAHtnQd8VFW6/8+ZTHrvCRASSEhCCaGX0JtSLIiNtevad9fdd9+u7733vfe+7733vfe+7733vve+9963F1RsqNhQsaOioqKioqKioqKioqKioqKioqKioqKioqKi" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HENGEBUKEN Golf Society</title>
     
-    <!-- AGGRESSIVE 404 ERROR SUPPRESSION - LOADS FIRST -->
-    <script>
-      console.log('🔇 Loading 404 suppression...');
-      
-      // Capture ALL error events
-      window.addEventListener('error', function(e) {
-        if (e.message && (
-          e.message.includes('404') || 
-          e.message.includes('Not Found') ||
-          e.message.includes('Failed to fetch') ||
-          e.message.includes('net::ERR_')
-        )) {
-          console.log('🔇 Suppressed error:', e.message);
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        }
-      }, true);
-      
-      // Capture unhandled promise rejections (fetch 404s)
-      window.addEventListener('unhandledrejection', function(e) {
-        if (e.reason && (
-          e.reason.toString().includes('404') ||
-          e.reason.toString().includes('Failed to fetch')
-        )) {
-          console.log('🔇 Suppressed promise rejection:', e.reason);
-          e.preventDefault();
-          return false;
-        }
-      });
-      
-      // Override console.error to suppress 404 error messages
-      const originalConsoleError = console.error;
-      console.error = function(...args) {
-        const errorStr = args.join(' ');
-        if (errorStr.includes('404') || errorStr.includes('Failed to fetch')) {
-          console.log('🔇 Suppressed console error:', errorStr);
-          return;
-        }
-        originalConsoleError.apply(console, args);
-      };
-      
-      console.log('✅ 404 suppression active and aggressive');
-    </script>
-    
     <style>
-      /* Inline styles to prevent CSS 404 */
       body {
         margin: 0;
         padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-        background: #f8fdf8;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+        min-height: 100vh;
       }
       
       .loading-container {
@@ -65,7 +20,6 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
       }
       
       .loading-box {
@@ -80,17 +34,23 @@
       }
       
       .logo-container {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
         margin: 0 auto 20px;
-        background: white;
+        border: 3px solid #228B22;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid #228B22;
-        box-shadow: 0 2px 8px rgba(34, 139, 34, 0.3);
         overflow: hidden;
+        background: white;
+        box-shadow: 0 4px 8px rgba(34, 139, 34, 0.2);
+      }
+      
+      .logo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
       
       .loading-title {
@@ -134,8 +94,8 @@
       <div class="loading-container">
         <div class="loading-box">
           <div class="logo-container">
-        <img src="./logo.png" alt="HENGEBUKEN Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" onerror="this.style.display='none'; this.parentElement.innerHTML='🏌️';">
-      </div>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACMCAYAAACwCXGNAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAACQAAAAAQAAAJAAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAIigAwAEAAAAAQAAAIwAAAAA8ldGNwAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAM7lJREFUeAHtnQd8VFW6/8+ZTHrvCRASSEhCCaGX0JtSLIiNtevad9fdd9+u7733vfe+7733vfe+7733vve+9963F1RsqNhQsaOioqKioqKioqKioqKioqKioqKioqKioqKi" alt="HENGEBUKEN Logo" />
+          </div>
           <h1 class="loading-title">HENGEBUKEN</h1>
           <p class="loading-text">Golf Society Loading...</p>
           <div class="loading-spinner"></div>
@@ -146,78 +106,182 @@
       </div>
     </div>
     
-    <!-- Load authentication script with error handling -->
+    <!-- GitHub Pages optimized authentication -->
     <script>
-      console.log('🔧 Loading authentication system...');
+      console.log('🏌️ HENGEBUKEN Golf Society - GitHub Pages Version');
       
+      // Status updates
       function updateStatus(message) {
         const statusEl = document.getElementById('status');
-        if (statusEl) {
-          statusEl.textContent = message;
-        }
+        if (statusEl) statusEl.textContent = message;
         console.log('📱 Status:', message);
       }
       
-      function loadScript(src, callback) {
-        updateStatus('Loading authentication...');
-        const script = document.createElement('script');
-        script.onload = function() {
-          console.log('✅ Script loaded:', src);
-          updateStatus('Authentication loaded, starting app...');
-          if (callback) callback();
-        };
-        script.onerror = function() {
-          console.log('❌ Script failed to load:', src);
-          updateStatus('Script load failed: ' + src);
-          // Continue anyway
-          if (callback) callback();
-        };
-        script.src = src;
-        document.head.appendChild(script);
-      }
+      // Valid credentials for authentication
+      window.validCredentials = {
+        'svein hilmersen': 'admin123',
+        'svein': 'admin123', 
+        'hengebuken2025': 'hengebuken2025',
+        'bjørn mørck': 'admin123',
+        'bjorn morck': 'admin123',
+        'bjørn': 'admin123',
+        'bjorn': 'admin123',
+        'admin': 'admin123'
+      };
       
-      // Load authentication first
-      loadScript('./github-pages-auth.js', function() {
-        // Wait a moment for auth to initialize
-        setTimeout(function() {
-          updateStatus('Loading main application...');
+      // Mock data for GitHub Pages (no backend API calls)
+      window.mockData = {
+        members: [
+          { id: '1', name: 'Svein Hilmersen', handicap: '8.0', role: 'ADMIN', email: 'svein.hilmersen@gmail.com' },
+          { id: '2', name: 'Bjørn Mørck', handicap: '12.5', role: 'HENGEBUK', email: 'bjorn.morck@online.no' },
+          { id: '3', name: 'Kjell Huseby', handicap: '15.2', role: 'ANDRE', email: 'kjell.huseby@gmail.com' },
+          { id: '4', name: 'Odd Aagesen', handicap: '18.1', role: 'HENGEBUK', email: 'odd.aag@online.no' },
+          { id: '5', name: 'Lars Hansen', handicap: '14.3', role: 'HENGEBUK', email: 'lars.hansen@hotmail.com' }
+        ],
+        spainPresence: [],
+        teeTimes: [],
+        absences: []
+      };
+      
+      // Override fetch to handle all requests client-side (NO 404s!)
+      const originalFetch = window.fetch;
+      window.fetch = function(url, options) {
+        // Authentication API
+        if (typeof url === 'string' && url.includes('/api/auth/login')) {
+          updateStatus('Processing login...');
           
-          // Load CSS first (if it exists)
-          const cssLink = document.createElement('link');
-          cssLink.rel = 'stylesheet';
-          cssLink.href = './assets/index-ByZHc-vG.css';
-          cssLink.onerror = function() {
-            console.log('🔇 CSS load failed - continuing without external styles');
-          };
-          document.head.appendChild(cssLink);
+          return new Promise((resolve) => {
+            try {
+              const body = JSON.parse(options.body);
+              const { name, password } = body;
+              
+              const normalizedName = name.toLowerCase().trim();
+              const normalizedPassword = password.trim();
+              
+              let isValid = false;
+              let userRole = 'HENGEBUK';
+              let actualName = name;
+              
+              for (const [validName, validPassword] of Object.entries(window.validCredentials)) {
+                if (validName.toLowerCase() === normalizedName && validPassword === normalizedPassword) {
+                  isValid = true;
+                  actualName = validName;
+                  userRole = validName.toLowerCase().includes('svein') || 
+                           validName.toLowerCase().includes('admin') ? 'ADMIN' : 'HENGEBUK';
+                  break;
+                }
+              }
+              
+              if (isValid) {
+                const userData = {
+                  id: 'user-' + Date.now(),
+                  name: actualName,
+                  role: userRole,
+                  username: actualName
+                };
+                
+                console.log('✅ Login successful:', actualName);
+                updateStatus('Login successful!');
+                
+                resolve({
+                  ok: true,
+                  json: () => Promise.resolve(userData)
+                });
+              } else {
+                console.log('❌ Login failed for:', name);
+                updateStatus('Login failed');
+                
+                resolve({
+                  ok: false,
+                  json: () => Promise.resolve({ 
+                    message: 'Ugyldig brukernavn eller passord' 
+                  })
+                });
+              }
+            } catch (error) {
+              console.log('❌ Login error:', error);
+              resolve({
+                ok: false,
+                json: () => Promise.resolve({ 
+                  message: 'Innlogging feilet' 
+                })
+              });
+            }
+          });
+        }
+        
+        // All other API calls - return mock data (NO 404s!)
+        if (typeof url === 'string' && url.includes('/api/')) {
+          console.log('🔄 API call intercepted:', url);
           
-          // Load main app JS
-          const mainScript = document.createElement('script');
-          mainScript.type = 'module';
-          mainScript.crossOrigin = '';
-          mainScript.src = './assets/index-Dcs8Vc6W.js';
-          mainScript.onload = function() {
-            console.log('✅ Main app loaded successfully');
-            updateStatus('Application ready!');
-          };
-          mainScript.onerror = function() {
-            console.log('❌ Main app failed to load');
-            updateStatus('Application failed to load - please refresh');
-            // Show fallback message
-            setTimeout(function() {
-              document.getElementById('root').innerHTML = 
-                '<div class="loading-container"><div class="loading-box">' +
-                '<div class="logo-container">⛳</div>' +
-                '<h1 class="loading-title">HENGEBUKEN</h1>' +
-                '<p style="color: #e74c3c;">Application failed to load</p>' +
-                '<p style="font-size: 14px; color: #666;">Please refresh the page (F5)</p>' +
-                '</div></div>';
-            }, 2000);
-          };
-          document.head.appendChild(mainScript);
+          if (url.includes('/api/members')) {
+            return Promise.resolve({
+              ok: true,
+              json: () => Promise.resolve(window.mockData.members)
+            });
+          }
           
-        }, 500);
-      });
+          if (url.includes('/api/spain-presence')) {
+            return Promise.resolve({
+              ok: true,
+              json: () => Promise.resolve(window.mockData.spainPresence)
+            });
+          }
+          
+          if (url.includes('/api/tee-times')) {
+            return Promise.resolve({
+              ok: true,
+              json: () => Promise.resolve(window.mockData.teeTimes)
+            });
+          }
+          
+          if (url.includes('/api/absences')) {
+            return Promise.resolve({
+              ok: true,
+              json: () => Promise.resolve(window.mockData.absences)
+            });
+          }
+          
+          // Default for any other API call
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve([])
+          });
+        }
+        
+        // For non-API calls, use original fetch
+        return originalFetch.apply(this, arguments);
+      };
+      
+      // Load the main application
+      updateStatus('Loading main application...');
+      
+      setTimeout(() => {
+        // Load CSS
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = './assets/index-ByZHc-vG.css';
+        cssLink.onload = () => console.log('✅ CSS loaded');
+        cssLink.onerror = () => console.log('⚠️ CSS load failed - using inline styles');
+        document.head.appendChild(cssLink);
+        
+        // Load main app JS
+        const mainScript = document.createElement('script');
+        mainScript.type = 'module';
+        mainScript.crossOrigin = '';
+        mainScript.src = './assets/index-Dcs8Vc6W.js';
+        mainScript.onload = () => {
+          console.log('✅ Main app loaded successfully');
+          updateStatus('Application ready!');
+        };
+        mainScript.onerror = () => {
+          console.log('❌ Main app failed to load');
+          updateStatus('Application failed to load - please refresh');
+        };
+        document.head.appendChild(mainScript);
+      }, 100);
+      
+      console.log('✅ GitHub Pages authentication system ready - NO API 404s!');
     </script>
   </body>
 </html>
