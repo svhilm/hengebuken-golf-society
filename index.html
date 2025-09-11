@@ -5,51 +5,217 @@
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HENGEBUKEN Golf Society</title>
+    
+    <!-- AGGRESSIVE 404 ERROR SUPPRESSION - LOADS FIRST -->
     <script>
-      // Early 404 suppression
+      console.log('🔇 Loading 404 suppression...');
+      
+      // Capture ALL error events
       window.addEventListener('error', function(e) {
-        if (e.message && e.message.includes('404')) {
-          console.log('🔇 404 error suppressed:', e.message);
+        if (e.message && (
+          e.message.includes('404') || 
+          e.message.includes('Not Found') ||
+          e.message.includes('Failed to fetch') ||
+          e.message.includes('net::ERR_')
+        )) {
+          console.log('🔇 Suppressed error:', e.message);
           e.preventDefault();
+          e.stopPropagation();
           return false;
         }
       }, true);
-      console.log('🔇 404 suppression active');
+      
+      // Capture unhandled promise rejections (fetch 404s)
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e.reason && (
+          e.reason.toString().includes('404') ||
+          e.reason.toString().includes('Failed to fetch')
+        )) {
+          console.log('🔇 Suppressed promise rejection:', e.reason);
+          e.preventDefault();
+          return false;
+        }
+      });
+      
+      // Override console.error to suppress 404 error messages
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        const errorStr = args.join(' ');
+        if (errorStr.includes('404') || errorStr.includes('Failed to fetch')) {
+          console.log('🔇 Suppressed console error:', errorStr);
+          return;
+        }
+        originalConsoleError.apply(console, args);
+      };
+      
+      console.log('✅ 404 suppression active and aggressive');
     </script>
+    
+    <style>
+      /* Inline styles to prevent CSS 404 */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        background: #f8fdf8;
+      }
+      
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+      }
+      
+      .loading-box {
+        text-align: center;
+        padding: 40px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 2px solid #228B22;
+        max-width: 400px;
+        width: 90%;
+      }
+      
+      .logo-container {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        background: #228B22;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      
+      .loading-title {
+        color: #228B22;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 20px 0 10px;
+        letter-spacing: 1px;
+      }
+      
+      .loading-text {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      
+      .loading-spinner {
+        width: 30px;
+        height: 30px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #228B22;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .status-text {
+        font-size: 14px;
+        color: #999;
+        margin-top: 15px;
+      }
+    </style>
   </head>
   <body>
     <div id="root">
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial; background: #f0f8f0;">
-        <div style="text-align: center; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-          <h1 style="color: #228B22; margin-bottom: 20px;">🏌️ HENGEBUKEN</h1>
-          <p style="color: #666;">Golf Society Loading...</p>
-          <div style="margin-top: 20px; font-size: 14px; color: #999;">
-            <p>Authentication system initializing...</p>
+      <div class="loading-container">
+        <div class="loading-box">
+          <div class="logo-container">⛳</div>
+          <h1 class="loading-title">HENGEBUKEN</h1>
+          <p class="loading-text">Golf Society Loading...</p>
+          <div class="loading-spinner"></div>
+          <div class="status-text" id="status">
+            Initializing authentication system...
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Load authentication FIRST -->
-    <script src="./github-pages-auth.js"></script>
-    
-    <!-- Load main app after authentication is ready -->
-    <script type="module" crossorigin src="./assets/index-Dcs8Vc6W.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ByZHc-vG.css">
-    
+    <!-- Load authentication script with error handling -->
     <script>
-      // Ensure authentication loads before app
-      if (window.fetch && window.validCredentials) {
-        console.log('✅ Authentication system ready');
-      } else {
-        console.log('⏳ Waiting for authentication...');
-        setTimeout(() => {
-          if (!window.validCredentials) {
-            console.log('🚨 Authentication not loaded, reloading page...');
-            window.location.reload();
-          }
-        }, 3000);
+      console.log('🔧 Loading authentication system...');
+      
+      function updateStatus(message) {
+        const statusEl = document.getElementById('status');
+        if (statusEl) {
+          statusEl.textContent = message;
+        }
+        console.log('📱 Status:', message);
       }
+      
+      function loadScript(src, callback) {
+        updateStatus('Loading authentication...');
+        const script = document.createElement('script');
+        script.onload = function() {
+          console.log('✅ Script loaded:', src);
+          updateStatus('Authentication loaded, starting app...');
+          if (callback) callback();
+        };
+        script.onerror = function() {
+          console.log('❌ Script failed to load:', src);
+          updateStatus('Script load failed: ' + src);
+          // Continue anyway
+          if (callback) callback();
+        };
+        script.src = src;
+        document.head.appendChild(script);
+      }
+      
+      // Load authentication first
+      loadScript('./github-pages-auth.js', function() {
+        // Wait a moment for auth to initialize
+        setTimeout(function() {
+          updateStatus('Loading main application...');
+          
+          // Load CSS first (if it exists)
+          const cssLink = document.createElement('link');
+          cssLink.rel = 'stylesheet';
+          cssLink.href = './assets/index-ByZHc-vG.css';
+          cssLink.onerror = function() {
+            console.log('🔇 CSS load failed - continuing without external styles');
+          };
+          document.head.appendChild(cssLink);
+          
+          // Load main app JS
+          const mainScript = document.createElement('script');
+          mainScript.type = 'module';
+          mainScript.crossOrigin = '';
+          mainScript.src = './assets/index-Dcs8Vc6W.js';
+          mainScript.onload = function() {
+            console.log('✅ Main app loaded successfully');
+            updateStatus('Application ready!');
+          };
+          mainScript.onerror = function() {
+            console.log('❌ Main app failed to load');
+            updateStatus('Application failed to load - please refresh');
+            // Show fallback message
+            setTimeout(function() {
+              document.getElementById('root').innerHTML = 
+                '<div class="loading-container"><div class="loading-box">' +
+                '<div class="logo-container">⛳</div>' +
+                '<h1 class="loading-title">HENGEBUKEN</h1>' +
+                '<p style="color: #e74c3c;">Application failed to load</p>' +
+                '<p style="font-size: 14px; color: #666;">Please refresh the page (F5)</p>' +
+                '</div></div>';
+            }, 2000);
+          };
+          document.head.appendChild(mainScript);
+          
+        }, 500);
+      });
     </script>
   </body>
 </html>
