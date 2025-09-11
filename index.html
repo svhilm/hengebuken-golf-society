@@ -83,14 +83,14 @@
         width: 64px;
         height: 64px;
         margin: 0 auto 20px;
-        background: #228B22;
+        background: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
+        border: 3px solid #228B22;
+        box-shadow: 0 2px 8px rgba(34, 139, 34, 0.3);
+        overflow: hidden;
       }
       
       .loading-title {
@@ -133,7 +133,9 @@
     <div id="root">
       <div class="loading-container">
         <div class="loading-box">
-          <div class="logo-container">⛳</div>
+          <div class="logo-container">
+        <img src="./logo.png" alt="HENGEBUKEN Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" onerror="this.style.display='none'; this.parentElement.innerHTML='🏌️';">
+      </div>
           <h1 class="loading-title">HENGEBUKEN</h1>
           <p class="loading-text">Golf Society Loading...</p>
           <div class="loading-spinner"></div>
