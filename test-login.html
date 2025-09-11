@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>HENGEBUKEN Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .login-form { max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; }
+        button { background: green; color: white; border: none; }
+        #result { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div class="login-form">
+        <h2>🏌️ HENGEBUKEN Login Test</h2>
+        <input type="text" id="username" placeholder="Navn" value="Svein Hilmersen">
+        <input type="password" id="password" placeholder="Passord" value="admin123">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="result"></div>
+    </div>
+    
+    <script src="./github-pages-auth.js"></script>
+    <script>
+        function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            console.log('Testing login:', username, password);
+            
+            // Simulate the auth API call
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: username, password: password })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.id) {
+                    result.innerHTML = '✅ SUCCESS: ' + JSON.stringify(data);
+                    result.style.background = '#d4edda';
+                } else {
+                    result.innerHTML = '❌ FAILED: ' + JSON.stringify(data);
+                    result.style.background = '#f8d7da';
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error);
+                result.innerHTML = '💥 ERROR: ' + error.message;
+                result.style.background = '#f8d7da';
+            });
+        }
+        
+        // Auto-test on load
+        setTimeout(() => {
+            console.log('Auto-testing login...');
+            testLogin();
+        }, 1000);
+    </script>
+</body>
+</html>
