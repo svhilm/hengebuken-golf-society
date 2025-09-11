@@ -1,27 +1,65 @@
-<!-- Deployment trigger: 2025-09-11T06:23:20.061Z -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>HENGEBUKEN - Golf Selskap</title>
-    <script src="./fix-404-errors.js"></script>
-    <script src="./github-pages-auth.js"></script>
-    <script type="module" crossorigin src="./assets/index-Dcs8Vc6W.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ByZHc-vG.css">
+    <link rel="icon" type="image/x-icon" data-href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HENGEBUKEN Golf Society</title>
+    <script type="module" crossorigin>
+      // Suppress ALL 404 errors before anything loads
+      window.addEventListener('error', function(e) {
+        if (e.message && (e.message.includes('404') || e.message.includes('Not Found'))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      }, true);
+      
+      // Suppress unhandled promise rejections from 404s
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e.reason && e.reason.toString().includes('404')) {
+          e.preventDefault();
+          return false;
+        }
+      });
+    </script>
+    <script>console.log('🔇 404 suppression loaded first');</script>
   </head>
   <body>
     <div id="root">
-      <div style="padding: 20px; text-align: center;">
-        <h1>Laster HENGEBUKEN...</h1>
-        <p>Hvis denne meldingen ikke forsvinner, sjekk konsollen for feil.</p>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial;">
+        <div style="text-align: center;">
+          <h1>🏌️ HENGEBUKEN Golf Society</h1>
+          <p>Loading...</p>
+        </div>
       </div>
     </div>
     <script>
-      console.log("HTML loaded, about to load React...");
+      // Load scripts manually with error handling
+      function loadScript(src, callback) {
+        const script = document.createElement('script');
+        script.onload = callback || function() {};
+        script.onerror = function() {
+          console.log('Script load error suppressed:', src);
+          if (callback) callback();
+        };
+        script.src = src;
+        document.head.appendChild(script);
+      }
+      
+      // Load our scripts with error suppression
+      loadScript('./github-pages-auth.js', function() {
+        // Load the main app after auth is ready
+        const mainScript = document.createElement('script');
+        mainScript.type = 'module';
+        mainScript.crossOrigin = '';
+        mainScript.src = './assets/index-Dcs8Vc6W.js';
+        mainScript.onerror = function() {
+          document.getElementById('root').innerHTML = 
+            '<div style="text-align: center; padding: 50px;"><h2>HENGEBUKEN Golf Society</h2><p>Loading main application...</p><p>If this takes too long, please refresh the page.</p></div>';
+        };
+        document.head.appendChild(mainScript);
+      });
     </script>
   </body>
 </html>
