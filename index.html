@@ -2,64 +2,54 @@
 <html lang="no">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" data-href="./favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HENGEBUKEN Golf Society</title>
-    <script type="module" crossorigin>
-      // Suppress ALL 404 errors before anything loads
+    <script>
+      // Early 404 suppression
       window.addEventListener('error', function(e) {
-        if (e.message && (e.message.includes('404') || e.message.includes('Not Found'))) {
+        if (e.message && e.message.includes('404')) {
+          console.log('🔇 404 error suppressed:', e.message);
           e.preventDefault();
-          e.stopPropagation();
           return false;
         }
       }, true);
-      
-      // Suppress unhandled promise rejections from 404s
-      window.addEventListener('unhandledrejection', function(e) {
-        if (e.reason && e.reason.toString().includes('404')) {
-          e.preventDefault();
-          return false;
-        }
-      });
+      console.log('🔇 404 suppression active');
     </script>
-    <script>console.log('🔇 404 suppression loaded first');</script>
   </head>
   <body>
     <div id="root">
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial;">
-        <div style="text-align: center;">
-          <h1>🏌️ HENGEBUKEN Golf Society</h1>
-          <p>Loading...</p>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial; background: #f0f8f0;">
+        <div style="text-align: center; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <h1 style="color: #228B22; margin-bottom: 20px;">🏌️ HENGEBUKEN</h1>
+          <p style="color: #666;">Golf Society Loading...</p>
+          <div style="margin-top: 20px; font-size: 14px; color: #999;">
+            <p>Authentication system initializing...</p>
+          </div>
         </div>
       </div>
     </div>
+    
+    <!-- Load authentication FIRST -->
+    <script src="./github-pages-auth.js"></script>
+    
+    <!-- Load main app after authentication is ready -->
+    <script type="module" crossorigin src="./assets/index-Dcs8Vc6W.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-ByZHc-vG.css">
+    
     <script>
-      // Load scripts manually with error handling
-      function loadScript(src, callback) {
-        const script = document.createElement('script');
-        script.onload = callback || function() {};
-        script.onerror = function() {
-          console.log('Script load error suppressed:', src);
-          if (callback) callback();
-        };
-        script.src = src;
-        document.head.appendChild(script);
+      // Ensure authentication loads before app
+      if (window.fetch && window.validCredentials) {
+        console.log('✅ Authentication system ready');
+      } else {
+        console.log('⏳ Waiting for authentication...');
+        setTimeout(() => {
+          if (!window.validCredentials) {
+            console.log('🚨 Authentication not loaded, reloading page...');
+            window.location.reload();
+          }
+        }, 3000);
       }
-      
-      // Load our scripts with error suppression
-      loadScript('./github-pages-auth.js', function() {
-        // Load the main app after auth is ready
-        const mainScript = document.createElement('script');
-        mainScript.type = 'module';
-        mainScript.crossOrigin = '';
-        mainScript.src = './assets/index-Dcs8Vc6W.js';
-        mainScript.onerror = function() {
-          document.getElementById('root').innerHTML = 
-            '<div style="text-align: center; padding: 50px;"><h2>HENGEBUKEN Golf Society</h2><p>Loading main application...</p><p>If this takes too long, please refresh the page.</p></div>';
-        };
-        document.head.appendChild(mainScript);
-      });
     </script>
   </body>
 </html>
